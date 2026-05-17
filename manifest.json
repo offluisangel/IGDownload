@@ -1,0 +1,37 @@
+{
+    "name": "IG Downloader",
+    "description": "Download Photos and Videos from Instagram Post, Reels, TV, Stories",
+    "version": "1.0.0",
+    "manifest_version": 3,
+    "icons": {
+        "512": "icons/icon512.png"
+    },
+    "host_permissions": [
+        "https://www.instagram.com/*"
+    ],
+    "background": {
+        "service_worker": "src/js/background.js"
+    },
+    "action": {
+        "default_icon": "icons/icon512.png"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.instagram.com/*"
+            ],
+            "css": [
+                "src/style/toast.css",
+                "src/style/picker.css"
+            ],
+            "js": [
+                "src/js/toast.js",
+                "src/js/picker.js",
+                "src/js/utils.js",
+                "src/js/post.js",
+                "src/js/story.js",
+                "src/js/main.js"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,143 @@
+/* src/style/toast.css */
+.sileo-toaster {
+  --toast-surface: rgba(17, 17, 17, 0.86);
+  --toast-border: rgba(255, 255, 255, 0.12);
+  --toast-title: #f4f4f4;
+  --toast-description: #b8b8b8;
+  --toast-accent: #3b82f6;
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  pointer-events: none;
+  width: min(360px, calc(100vw - 20px));
+}
+
+.sileo-toast {
+  pointer-events: auto;
+  position: relative;
+  background: linear-gradient(160deg, rgba(27, 27, 27, 0.95), var(--toast-surface));
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid var(--toast-border);
+  box-shadow:
+    0 14px 42px rgba(0, 0, 0, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  padding: 13px 15px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: #fff;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  font-size: 14px;
+  transform-origin: top right;
+  animation: sileo-enter 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  transition: all 0.3s ease;
+  will-change: transform, opacity;
+  overflow: hidden;
+}
+
+.sileo-toast[data-toast-type="loading"]::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--toast-accent), transparent);
+  background-size: 220px 100%;
+  animation: sileo-loading-bar 1.2s linear infinite;
+  opacity: 0.85;
+}
+
+.sileo-toast.sileo-exit {
+  animation: sileo-exit 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
+}
+
+@keyframes sileo-enter {
+  0% { opacity: 0; transform: translateY(-30px) scale(0.9); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes sileo-exit {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-20px) scale(0.9); }
+}
+
+.sileo-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sileo-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.sileo-icon-success { color: #10b981; }
+.sileo-icon-error { color: #ef4444; }
+.sileo-icon-loading {
+  color: #a3a3a3;
+  animation: sileo-spin 1s linear infinite;
+}
+
+@keyframes sileo-spin {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes sileo-loading-bar {
+  0% { background-position: -220px 0; }
+  100% { background-position: 220px 0; }
+}
+
+.sileo-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.sileo-title {
+  font-weight: 600;
+  color: var(--toast-title);
+  margin: 0;
+  line-height: 1.35;
+  letter-spacing: -0.05px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sileo-description {
+  font-weight: 400;
+  color: var(--toast-description);
+  font-size: 13px;
+  margin: 3px 0 0 0;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.sileo-toast[data-toast-type="success"] {
+  border-color: rgba(16, 185, 129, 0.36);
+}
+
+.sileo-toast[data-toast-type="error"] {
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+@media (max-width: 640px) {
+  .sileo-toaster {
+    top: auto;
+    bottom: 12px;
+    right: 10px;
+    left: 10px;
+    width: auto;
+  }
+}

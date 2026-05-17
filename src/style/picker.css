@@ -1,0 +1,266 @@
+/* src/style/picker.css */
+.ig-picker-overlay,
+.ig-picker-panel {
+  --ig-surface: rgba(17, 17, 17, 0.92);
+  --ig-border-soft: rgba(255, 255, 255, 0.08);
+  --ig-border-strong: rgba(255, 255, 255, 0.18);
+  --ig-text-primary: #f3f3f3;
+  --ig-text-secondary: #a7a7a7;
+  --ig-accent: #5d5d5d;
+  --ig-accent-strong: #474747;
+}
+
+.ig-picker-overlay {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(1100px 460px at 90% -20%, rgba(59, 130, 246, 0.16), transparent 55%),
+    rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(6px);
+  z-index: 10000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 14px;
+  animation: ig-picker-bg-in 0.25s ease forwards;
+}
+
+@keyframes ig-picker-bg-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.ig-picker-panel {
+  background: linear-gradient(165deg, rgba(26, 26, 26, 0.96), var(--ig-surface));
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid var(--ig-border-soft);
+  border-radius: 24px;
+  box-shadow:
+    0 26px 72px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  width: min(320px, 100%);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  animation: ig-picker-in 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  color: var(--ig-text-primary);
+}
+
+@keyframes ig-picker-in {
+  from { opacity: 0; transform: translateY(-30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.ig-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 16px 11px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  flex-shrink: 0;
+}
+
+.ig-picker-title {
+  font-size: 14.5px;
+  font-weight: 650;
+  color: var(--ig-text-primary);
+  letter-spacing: -0.15px;
+}
+
+.ig-picker-subtitle {
+  font-size: 11.5px;
+  color: var(--ig-text-secondary);
+  margin-top: 2px;
+}
+
+.ig-picker-close {
+  background: rgba(255, 255, 255, 0.07);
+  border: none;
+  color: #b8b8b8;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.16s ease;
+  flex-shrink: 0;
+}
+.ig-picker-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.ig-picker-select-all {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s ease;
+}
+.ig-picker-select-all:hover { background: rgba(255, 255, 255, 0.04); }
+.ig-picker-select-all span {
+  font-size: 13px;
+  color: var(--ig-text-secondary);
+}
+
+.ig-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  padding: 6px;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.ig-picker-grid::-webkit-scrollbar { width: 6px; }
+.ig-picker-grid::-webkit-scrollbar-track { background: transparent; }
+.ig-picker-grid::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+}
+
+.ig-picker-item {
+  position: relative;
+  aspect-ratio: 1;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  transition: transform 0.17s ease, border-color 0.17s ease;
+}
+
+.ig-picker-item:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.13);
+}
+
+.ig-picker-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: filter 0.22s ease, transform 0.22s ease;
+}
+
+.ig-picker-item.selected img {
+  filter: brightness(0.62) saturate(0.93);
+  transform: scale(1.02);
+}
+
+.ig-picker-item .ig-check {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: rgba(0, 0, 0, 0.26);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.ig-picker-item.selected .ig-check {
+  background: var(--ig-accent);
+  border-color: var(--ig-accent);
+  box-shadow: 0 0 0 3px rgba(93, 93, 93, 0.24);
+}
+
+.ig-picker-item .ig-check svg {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s ease;
+}
+.ig-picker-item.selected .ig-check svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.ig-picker-item .ig-video-badge {
+  position: absolute;
+  bottom: 7px;
+  left: 7px;
+  background: rgba(0, 0, 0, 0.66);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  padding: 2px 7px;
+  font-size: 10px;
+  color: #fafafa;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ig-picker-footer {
+  padding: 10px 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.ig-picker-download-btn {
+  width: 100%;
+  background: linear-gradient(180deg, rgba(246, 246, 246, 0.14), rgba(255, 255, 255, 0.07));
+  color: #f2f2f2;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 580;
+  cursor: pointer;
+  letter-spacing: 0.12px;
+  transition: all 0.18s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+}
+.ig-picker-download-btn:hover:not(:disabled) {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.1));
+  border-color: rgba(255, 255, 255, 0.34);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.ig-picker-download-btn:active:not(:disabled) {
+  transform: translateY(0px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.24);
+}
+.ig-picker-download-btn:disabled {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.07);
+  color: #676767;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .ig-picker-overlay {
+    align-items: flex-end;
+    justify-content: center;
+    padding: 8px;
+  }
+
+  .ig-picker-panel {
+    width: 100%;
+    max-height: 88vh;
+    border-radius: 20px;
+  }
+
+  .ig-picker-grid {
+    gap: 5px;
+    padding: 7px;
+  }
+}
